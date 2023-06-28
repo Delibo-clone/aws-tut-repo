@@ -1,0 +1,97 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.br{
+  border: 2px solid rgb(11, 9, 39);
+  border-radius: 5px;
+}
+.btn{
+  width: 100%;
+}
+#err{
+  color: tomato;
+  position: relative;
+  width: fit-content;
+}
+.form-control:focus{
+  border-color:  black ;
+  box-shadow: 0 0 0 0.10rem rgb(175, 175, 175);
+}
+.suc{
+  position: relative;
+  width: fit-content;
+}
+.suc::before{
+  content: "";
+  width: 0%;
+  position: absolute;
+  top: 100%;
+  left: 0%;
+  height: 3px;
+  background-color: rgb(71, 255, 145);
+  animation: showMsg;
+  animation-duration: 3s;
+  animation-delay: .5s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+#err::before{
+  content: "";
+  width: 0%;
+  position: absolute;
+  top: 100%;
+  left: 0%;
+  height: 3px;
+  background-color: tomato;
+  animation: showMsg;
+  animation-duration: 3s;
+  animation-delay: .5s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.show-suc-msg{
+  background-color: rgb(204, 204, 204);
+  color: rgb(14, 18, 41);
+  padding: 2rem;
+  border-radius: 4px;
+}
+@keyframes showMsg {
+  0%{
+    left: 0%;
+  }30%{
+    width: 100%;
+    left: 0%;
+  }100%{
+    width: 0%;
+    left: 100%;
+  }
+}
+.forgot-pswd-txt{
+  text-align: right;
+  cursor: pointer;
+}
+.forgot-pswd-txt:hover{
+  text-decoration: underline;
+}
+.forgot-pswd{
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 100%;
+  bottom: 0;
+  top: 0;
+  background-color: whitesmoke;
+  display: none;
+}
+.hover-style{
+  text-align: center;
+}
+.hover-style:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
