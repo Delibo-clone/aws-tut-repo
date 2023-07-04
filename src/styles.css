@@ -95,3 +95,25 @@
   text-decoration: underline;
   cursor: pointer;
 }
+#to-do-div{
+  transition: all .3s;
+}
+
+#to-do-input{
+  font-size: 30px;
+  font-weight: 700;
+  border: 2px solid rgb(224, 225, 237);
+  transition: all .3s;
+}
+#to-do-input:focus{
+  box-shadow: none;
+  border: 2px solid black;
+}
+.list-of-todo{
+  cursor: pointer;
+  border-top: 1px solid black;
+  border-bottom: .5px solid black;
+}
+.list-of-todo:hover{
+  background-color: rgb(236, 240, 241);
+}
