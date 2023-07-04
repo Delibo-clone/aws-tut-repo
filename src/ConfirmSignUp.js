@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { confirmSignUp } from "./auth";
 
-export default function ConfirmSignUp({msg}) {
+export default function ConfirmSignUp({ msg }) {
   const [username, setUsername] = useState("");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
@@ -29,7 +29,9 @@ export default function ConfirmSignUp({msg}) {
   return (
     <div className="mt-2 mb-3">
       <h2>CONFIRM SIGN UP</h2>
-      {msg?<p className="suc">Give verification code for confirmation</p>:null}
+      {msg ? (
+        <p className="suc">Give verification code for confirmation</p>
+      ) : null}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <input
@@ -53,9 +55,15 @@ export default function ConfirmSignUp({msg}) {
           />
         </div>
 
-        <button className="btn btn-dark" type="submit">Confirm</button>
+        <button className="btn btn-dark" type="submit">
+          Confirm
+        </button>
       </form>
-      {error && <p id="err" className="mt-2">{error}</p>}
+      {error && (
+        <p id="err" className="mt-2">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

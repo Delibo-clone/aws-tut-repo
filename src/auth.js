@@ -42,7 +42,7 @@ export function confirmSignUp(username, code) {
       Pool: userPool,
     });
 
-    cognitoUser.confirmRegistration(code, true, (err, result) => {
+    cognitoUser.confirmRegistration(code, true, async (err, result) => {
       if (err) {
         reject(err);
         return;
@@ -54,7 +54,6 @@ export function confirmSignUp(username, code) {
 
 export function signIn(username, password) {
   // Sign in implementation
-  console.log(username, password);
   return new Promise((resolve, reject) => {
     const authenticationDetails = new AuthenticationDetails({
       Username: username,
@@ -144,7 +143,6 @@ export function getCurrentUser() {
           acc[attribute.Name] = attribute.Value;
           return acc;
         }, {});
-
         resolve({ ...userData, username: cognitoUser.username });
       });
     });

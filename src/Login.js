@@ -1,41 +1,12 @@
-import { useState, useEffect } from "react";
-import { signIn } from "./auth";
-import { getCurrentUser } from "./auth";
+import { useState } from "react";
+import { signIn, getCurrentUser } from "./auth";
 import ForgotPassword from "./forgotpassward";
-function UserProfile() {
-  const [user, setUser] = useState();
+import axios from "axios";
+import ToDoList from "./to-do-list";
 
-  useEffect(() => {
-    const cleanUp = true;
-    const fetchUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        if (cleanUp) {
-          console.log(user);
-          setUser(user);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchUser();
-    return () => (cleanUp = false);
-  }, []);
-
-  return (
-    <div>
-      {user && (
-        <div>
-          <h2>User Profile</h2>
-          <p>Username: {user.family_name}</p>
-          <p>Email: {user.email}</p>
-        </div>
-      )}
-    </div>
-  );
+async function setToken(token) {
+  axios.defaults.headers.common["Authorization"] = token;
 }
-
 
 export default function LoginPage() {
   const [userName, setUsername] = useState("");
@@ -47,15 +18,29 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     try {
-      await signIn(userName, pswd);
-      showUserProfiole(true);
+      const tokens = await signIn(userName, pswd);
+      const userDetail = await getCurrentUser();
+      setToken(tokens.idToken.jwtToken).then(() => {
+        const { sub, given_name, email } = userDetail;
+        axios
+          .post(
+            `https://xoxrtp6j2a.execute-api.ap-south-1.amazonaws.com/dev/create-user?id=${sub}&name=${given_name}&email=${email}`
+          )
+          .then((re) => {
+            showUserProfiole(true);
+            console.log("data stored",re.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div style={{position:"relative"}} className="mt-2 mb-3">
+    <div style={{ position: "relative" }} className="mt-2 mb-3">
       {!userProfile ? (
         <>
           <h2>LOGIN</h2>
@@ -79,9 +64,16 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <p onClick={()=>{
-                document.getElementsByClassName("forgot-pswd")[0].style.display = "block";
-              }} className="forgot-pswd-txt">forgot password ?</p>
+              <p
+                onClick={() => {
+                  document.getElementsByClassName(
+                    "forgot-pswd"
+                  )[0].style.display = "block";
+                }}
+                className="forgot-pswd-txt"
+              >
+                forgot password ?
+              </p>
             </div>
             <button className="btn btn-dark" type="submit">
               Login
@@ -89,9 +81,9 @@ export default function LoginPage() {
           </form>
         </>
       ) : (
-        <UserProfile />
+        <ToDoList />
       )}
-      <ForgotPassword/>
+      <ForgotPassword />
       {error && (
         <p id="err" className="mt-2">
           {error}
